@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/definition_lookup_service'
+require_relative '../lib/pronunciation_lookup_service'
 
 # read in all spellings words from a file
 def gather_words(input_file)
@@ -15,13 +16,8 @@ end
 def definitions_for(word)
   # TODO: check if the word has a stored definition, returning that instead
   DefinitionLookupService.new.definitions_for(word)
-end
-
-def fetch_alternate_spellings
-  # load JSON file of alternative spellings
-  # TODO: make a reasonable location for this file
-  # TODO: bring alternative spellings into the hash
-  # JSON.parse(File.read("path/alternative-spellings.json"))
+  # TODO: store the definition(s) in the hash
+  # TODO: if false, do error logging
 end
 
 def fetch_definitions(words)
@@ -29,7 +25,17 @@ def fetch_definitions(words)
 end
 
 def fetch_pronunciations(words)
-  # TODO: for each word that does not have a stored pronunciation, fetch and store
+  # TODO: check if the word has a stored pronunciation, returning that instead
+  tempfile = PronunciationLookupService.new.pronunciation_audio_for(word)
+  # TODO: now store this audio file
+  # TODO: if false, do error logging
+end
+
+def fetch_alternate_spellings
+  # load JSON file of alternative spellings
+  # TODO: make a reasonable location for this file
+  # TODO: bring alternative spellings into the hash
+  # JSON.parse(File.read("path/alternative-spellings.json"))
 end
 
 def build_cards(words)
