@@ -10,7 +10,8 @@ class DefinitionLookupService
 
   def initialize
     @url = 'https://dictionaryapi.com/api/v3/references/collegiate/json/'
-    @key = ENV['DICTIONARY_API_KEY']
+    @key = ENV.fetch('DICTIONARY_API_KEY')
+    raise 'Please set the DICTIONARY_API_KEY environment variable.' unless key
   end
 
   def parse_response(json)
