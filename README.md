@@ -15,4 +15,4 @@ the spelled word on the back.
    - [ ] ... pull pronunciations (similarly, with the error handling), also be idempotent
    - [ ] generate Anki cards with audio file linkage, definitions (front) and correct spelling (back)
    - [ ] handle alternate spellings (probably an alternates hash in a JSON doc or something; add alternates to card backs
-
+ - [ ] document getting API key, setting in ENV (probably use a different name); or maybe go full `dotenv`
