@@ -16,8 +16,8 @@ class PronunciationLookupService
   def pronunciation_audio_for(word)
     full_url = url.gsub('%%%WORD%%%', CGI.escape(word))
     Down.download(full_url)
-  rescue Down::Error => err
-    STDERR.puts "Failed to download pronunciation for #{word}: #{err}"
+  rescue Down::Error => e
+    warn "Failed to download pronunciation for #{word}: #{e}"
     false
   end
 end
