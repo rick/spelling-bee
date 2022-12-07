@@ -19,7 +19,7 @@ class DefinitionLookupService
   end
 
   def definitions_for(word)
-    response = HTTP.get(url + CGI.escape(word) + "?key=#{key}")
+    response = HTTP.get(url + CGI.escape(word), params => { key: key })
     return false unless response.status.success?
 
     parse_response(response.body)
