@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "dotenv/load"
+require 'dotenv/load'
 
 # read in all spellings words from a file
 def gather_words(input_file)
@@ -43,9 +43,9 @@ if $PROGRAM_NAME == __FILE__
   # get command-line options
   options = {}
   OptionParser.new do |opts|
-    opts.banner = "Usage: build-cards.rb [options]"
+    opts.banner = 'Usage: build-cards.rb [options]'
 
-    opts.on("-f", "--file", "Spellings words input file") do |f|
+    opts.on('-f', '--file', 'Spellings words input file') do |f|
       options[:file] = f
     end
   end

@@ -1,4 +1,6 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-gem "dotenv"
-gem "rubocop", "~> 1.39", require: false
+source 'https://rubygems.org'
+
+gem 'dotenv'
+gem 'rubocop', '~> 1.39', require: false
