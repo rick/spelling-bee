@@ -1,7 +1,26 @@
 # frozen_string_literal: true
 
+require 'fileutils'
+require 'optparse'
 require_relative '../lib/definition_lookup_service'
 require_relative '../lib/pronunciation_lookup_service'
+
+# TODO: make this a class
+
+def audio_base_path
+  File.join(File.dirname(__FILE__), '..', 'audio')
+end
+
+def audio_path(word)
+  File.join(audio_base_path, "#{word.downcase}.mp3")
+end
+
+def store_pronunciation(word, tempfile)
+  tempfile.close
+  FileUtils.cp(tempfile.path, audio_path(word))
+ensure
+  tempfile.unlink
+end
 
 # read in all spellings words from a file
 def gather_words(input_file)
@@ -24,11 +43,11 @@ def fetch_definitions(words)
   # TODO: for each word that does not have a stored definition, fetch and store
 end
 
-def fetch_pronunciations(words)
+def fetch_pronunciations(word)
   # TODO: check if the word has a stored pronunciation, returning that instead
   tempfile = PronunciationLookupService.new.pronunciation_audio_for(word)
-  # TODO: now store this audio file
   # TODO: if false, do error logging
+  store_pronunciation(word, tempfile)
 end
 
 def fetch_alternate_spellings
