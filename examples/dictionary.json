@@ -1,0 +1,64 @@
+[
+  {
+    "meta": {
+      "id": "mountebank",
+      "uuid": "132e0fd7-2d5f-4bc1-87db-10ca82370368",
+      "src": "int_dict",
+      "section": "alpha",
+      "stems": [
+        "mountebank",
+        "mountebankeries",
+        "mountebankery",
+        "mountebanks"
+      ],
+      "offensive": false
+    },
+    "hwi": {
+      "hw": "moun*te*bank",
+      "prs": [
+        {
+          "mw": "ˈmau̇nt-i-ˌbaŋk"
+        }
+      ]
+    },
+    "fl": "noun",
+    "def": [
+      {
+        "sseq": [
+          [
+            [
+              "sense",
+              {
+                "sn": "1",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a person who peddles fake medicines (as at fairs and carnivals) by trickery"
+                  ]
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              "sense",
+              {
+                "sn": "2",
+                "dt": [
+                  [
+                    "text",
+                    "{bc}a boastful dishonest pretender {bc}{sx|charlatan||}"
+                  ]
+                ]
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "shortdef": [
+      "a person who peddles fake medicines (as at fairs and carnivals) by trickery",
+      "a boastful dishonest pretender : charlatan"
+    ]
+  }
+]
