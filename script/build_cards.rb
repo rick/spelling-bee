@@ -4,8 +4,7 @@ require 'fileutils'
 require 'optparse'
 require_relative '../lib/definition_lookup_service'
 require_relative '../lib/pronunciation_lookup_service'
-
-# TODO: make this a class
+require_relative '../lib/word_collector'
 
 def audio_base_path
   File.join(File.dirname(__FILE__), '..', 'audio')
@@ -29,36 +28,6 @@ def gather_words(input_file)
     words << line.chomp
   end
   words
-end
-
-# Manage collection and storage of words, definitions, and pronunciations
-class WordCollector
-  attr_reader :words
-
-  def initialize
-    @words = {}
-  end
-
-  def definition_for?(word)
-    words[word] && words[word][:definition]
-  end
-
-  def pronunciation_for?(word)
-    words[word] && words[word][:pronunciation]
-  end
-
-  def add_word(word)
-    words[word] ||= {}
-  end
-
-  def add_definition(word, definition)
-    words[word][:definition] = definition
-  end
-
-  # TODO: ensure we add something representing the pronunciation audio
-  def add_pronunciation(word, pronunciation)
-    words[word][:pronunciation] = pronunciation
-  end
 end
 
 # Request the dictionary definition(s) for a word
@@ -109,6 +78,7 @@ end
 
 def generate_cards(input_file)
   words = gather_words(input_file)
+  collector = WordCollector.new
   fetch_alternate_spellings(collector, words)
   fetch_definitions(collector, words)
   fetch_pronunciations(collector, words)
