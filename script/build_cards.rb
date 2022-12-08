@@ -6,21 +6,6 @@ require_relative '../lib/definition_lookup_service'
 require_relative '../lib/pronunciation_lookup_service'
 require_relative '../lib/word_collector'
 
-def audio_base_path
-  File.join(File.dirname(__FILE__), '..', 'audio')
-end
-
-def audio_path(word)
-  File.join(audio_base_path, "#{word.downcase}.mp3")
-end
-
-def store_pronunciation(word, tempfile)
-  tempfile.close
-  FileUtils.cp(tempfile.path, audio_path(word))
-ensure
-  tempfile.unlink
-end
-
 # read in all spellings words from a file
 def gather_words(input_file)
   words = []
