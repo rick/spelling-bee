@@ -31,23 +31,69 @@ def gather_words(input_file)
   words
 end
 
+# Manage collection and storage of words, definitions, and pronunciations
+class WordCollector
+  attr_reader :words
+
+  def initialize
+    @words = {}
+  end
+
+  def definition_for?(word)
+    words[word] && words[word][:definition]
+  end
+
+  def pronunciation_for?(word)
+    words[word] && words[word][:pronunciation]
+  end
+
+  def add_word(word)
+    words[word] ||= {}
+  end
+
+  def add_definition(word, definition)
+    words[word][:definition] = definition
+  end
+
+  # TODO: ensure we add something representing the pronunciation audio
+  def add_pronunciation(word, pronunciation)
+    words[word][:pronunciation] = pronunciation
+  end
+end
+
 # Request the dictionary definition(s) for a word
-def definitions_for(word)
-  # TODO: check if the word has a stored definition, returning that instead
-  DefinitionLookupService.new.definitions_for(word)
-  # TODO: store the definition(s) in the hash
-  # TODO: if false, do error logging
+def definitions_for(collector, word)
+  return if collector.definition_for?(word)
+
+  if (definition = DefinitionLookupService.new.definitions_for(word))
+    collector.add_definition(word, definition)
+  else
+    false
+  end
 end
 
-def fetch_definitions(words)
-  # TODO: for each word that does not have a stored definition, fetch and store
+def pronunciation_for(collector, word)
+  return if collector.pronunciation_for?(word)
+
+  if (tempfile = PronunciationLookupService.new.pronunciation_audio_for(word))
+    collector.add_pronunciation(word, tempfile)
+  else
+    false
+  end
 end
 
-def fetch_pronunciations(word)
-  # TODO: check if the word has a stored pronunciation, returning that instead
-  tempfile = PronunciationLookupService.new.pronunciation_audio_for(word)
-  # TODO: if false, do error logging
-  store_pronunciation(word, tempfile)
+def fetch_definitions(collector, words)
+  # for each word that does not have a stored definition, fetch and store
+  words.each do |word|
+    definitions_for(collector, word)
+  end
+end
+
+def fetch_pronunciations(collector, words)
+  # for each word that does not have a stored pronunciation, fetch and store
+  words.each do |word|
+    pronunciation_for(collector, word)
+  end
 end
 
 def fetch_alternate_spellings
@@ -63,9 +109,9 @@ end
 
 def generate_cards(input_file)
   words = gather_words(input_file)
-  fetch_alternate_spellings(words)
-  fetch_definitions(words)
-  fetch_pronunciations(words)
+  fetch_alternate_spellings(collector, words)
+  fetch_definitions(collector, words)
+  fetch_pronunciations(collector, words)
   build_cards(words)
 end
 
