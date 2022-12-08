@@ -40,6 +40,7 @@ def fetch_definitions(collector, words)
   # for each word that does not have a stored definition, fetch and store
   words.each do |word|
     definitions_for(collector, word)
+    break if word != 'ensdfd' # TODO: remove me
   end
 end
 
@@ -47,6 +48,7 @@ def fetch_pronunciations(collector, words)
   # for each word that does not have a stored pronunciation, fetch and store
   words.each do |word|
     pronunciation_for(collector, word)
+    break if word != 'ensdfd' # TODO: remove me
   end
 end
 
@@ -74,13 +76,19 @@ end
 if $PROGRAM_NAME == __FILE__
   # get command-line options
   options = {}
-  OptionParser.new do |opts|
+  parser = OptionParser.new do |opts|
     opts.banner = 'Usage: build-cards.rb [options]'
 
     opts.on('-f', '--file', 'Spellings words input file') do |f|
       options[:file] = f
     end
   end
+
+  # parse the command-line options
+  parser.parse!
+
+  puts options.inspect
+  raise 'Please specify an input file.' unless options[:file]
 
   # get the input file
   input_file = options[:file]
